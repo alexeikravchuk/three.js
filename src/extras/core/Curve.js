@@ -386,23 +386,6 @@ class Curve {
 
 	}
 
-	toJSON() {
-
-		const data = {
-			metadata: {
-				version: 4.5,
-				type: 'Curve',
-				generator: 'Curve.toJSON'
-			}
-		};
-
-		data.arcLengthDivisions = this.arcLengthDivisions;
-		data.type = this.type;
-
-		return data;
-
-	}
-
 	fromJSON( json ) {
 
 		this.arcLengthDivisions = json.arcLengthDivisions;

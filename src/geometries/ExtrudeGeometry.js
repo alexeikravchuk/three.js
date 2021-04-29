@@ -684,17 +684,6 @@ class ExtrudeGeometry extends BufferGeometry {
 
 	}
 
-	toJSON() {
-
-		const data = BufferGeometry.prototype.toJSON.call( this );
-
-		const shapes = this.parameters.shapes;
-		const options = this.parameters.options;
-
-		return toJSON( shapes, options, data );
-
-	}
-
 }
 
 const WorldUVGenerator = {
@@ -754,32 +743,6 @@ const WorldUVGenerator = {
 	}
 
 };
-
-function toJSON( shapes, options, data ) {
-
-	data.shapes = [];
-
-	if ( Array.isArray( shapes ) ) {
-
-		for ( let i = 0, l = shapes.length; i < l; i ++ ) {
-
-			const shape = shapes[ i ];
-
-			data.shapes.push( shape.uuid );
-
-		}
-
-	} else {
-
-		data.shapes.push( shapes.uuid );
-
-	}
-
-	if ( options.extrudePath !== undefined ) data.options.extrudePath = options.extrudePath.toJSON();
-
-	return data;
-
-}
 
 
 export { ExtrudeGeometry, ExtrudeGeometry as ExtrudeBufferGeometry };

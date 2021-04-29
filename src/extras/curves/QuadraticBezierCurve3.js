@@ -44,18 +44,6 @@ class QuadraticBezierCurve3 extends Curve {
 
 	}
 
-	toJSON() {
-
-		const data = super.toJSON();
-
-		data.v0 = this.v0.toArray();
-		data.v1 = this.v1.toArray();
-		data.v2 = this.v2.toArray();
-
-		return data;
-
-	}
-
 	fromJSON( json ) {
 
 		super.fromJSON( json );

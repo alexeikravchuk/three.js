@@ -27,44 +27,6 @@ class KeyframeTrack {
 	// Serialization (in static context, because of constructor invocation
 	// and automatic invocation of .toJSON):
 
-	static toJSON( track ) {
-
-		const trackType = track.constructor;
-
-		let json;
-
-		// derived classes can define a static toJSON method
-		if ( trackType.toJSON !== this.toJSON ) {
-
-			json = trackType.toJSON( track );
-
-		} else {
-
-			// by default, we assume the data can be serialized as-is
-			json = {
-
-				'name': track.name,
-				'times': AnimationUtils.convertArray( track.times, Array ),
-				'values': AnimationUtils.convertArray( track.values, Array )
-
-			};
-
-			const interpolation = track.getInterpolation();
-
-			if ( interpolation !== track.DefaultInterpolation ) {
-
-				json.interpolation = interpolation;
-
-			}
-
-		}
-
-		json.type = track.ValueTypeName; // mandatory
-
-		return json;
-
-	}
-
 	InterpolantFactoryMethodDiscrete( result ) {
 
 		return new DiscreteInterpolant( this.times, this.values, this.getValueSize(), result );

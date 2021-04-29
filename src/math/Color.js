@@ -593,12 +593,6 @@ class Color {
 
 	}
 
-	toJSON() {
-
-		return this.getHex();
-
-	}
-
 }
 
 Color.NAMES = _colorKeywords;

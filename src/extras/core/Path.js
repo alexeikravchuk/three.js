@@ -169,15 +169,7 @@ class Path extends CurvePath {
 
 	}
 
-	toJSON() {
 
-		const data = super.toJSON();
-
-		data.currentPoint = this.currentPoint.toArray();
-
-		return data;
-
-	}
 
 	fromJSON( json ) {
 

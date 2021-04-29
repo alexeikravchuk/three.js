@@ -107,27 +107,6 @@ class EllipseCurve extends Curve {
 
 	}
 
-	toJSON() {
-
-		const data = super.toJSON();
-
-		data.aX = this.aX;
-		data.aY = this.aY;
-
-		data.xRadius = this.xRadius;
-		data.yRadius = this.yRadius;
-
-		data.aStartAngle = this.aStartAngle;
-		data.aEndAngle = this.aEndAngle;
-
-		data.aClockwise = this.aClockwise;
-
-		data.aRotation = this.aRotation;
-
-		return data;
-
-	}
-
 	fromJSON( json ) {
 
 		super.fromJSON( json );

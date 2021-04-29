@@ -17,16 +17,6 @@ class FogExp2 {
 
 	}
 
-	toJSON( /* meta */ ) {
-
-		return {
-			type: 'FogExp2',
-			color: this.color.getHex(),
-			density: this.density
-		};
-
-	}
-
 }
 
 FogExp2.prototype.isFogExp2 = true;

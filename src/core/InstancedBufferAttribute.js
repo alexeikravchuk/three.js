@@ -29,19 +29,6 @@ class InstancedBufferAttribute extends BufferAttribute {
 		return this;
 
 	}
-
-	toJSON()	{
-
-		const data = super.toJSON();
-
-		data.meshPerAttribute = this.meshPerAttribute;
-
-		data.isInstancedBufferAttribute = true;
-
-		return data;
-
-	}
-
 }
 
 InstancedBufferAttribute.prototype.isInstancedBufferAttribute = true;

@@ -24,17 +24,6 @@ class RectAreaLight extends Light {
 
 	}
 
-	toJSON( meta ) {
-
-		const data = super.toJSON( meta );
-
-		data.object.width = this.width;
-		data.object.height = this.height;
-
-		return data;
-
-	}
-
 }
 
 RectAreaLight.prototype.isRectAreaLight = true;

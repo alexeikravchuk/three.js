@@ -30,16 +30,6 @@ class LightProbe extends Light {
 
 	}
 
-	toJSON( meta ) {
-
-		const data = super.toJSON( meta );
-
-		data.object.sh = this.sh.toArray();
-
-		return data;
-
-	}
-
 }
 
 LightProbe.prototype.isLightProbe = true;

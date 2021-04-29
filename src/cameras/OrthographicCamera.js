@@ -111,24 +111,6 @@ class OrthographicCamera extends Camera {
 
 	}
 
-	toJSON( meta ) {
-
-		const data = super.toJSON( meta );
-
-		data.object.zoom = this.zoom;
-		data.object.left = this.left;
-		data.object.right = this.right;
-		data.object.top = this.top;
-		data.object.bottom = this.bottom;
-		data.object.near = this.near;
-		data.object.far = this.far;
-
-		if ( this.view !== null ) data.object.view = Object.assign( {}, this.view );
-
-		return data;
-
-	}
-
 }
 
 OrthographicCamera.prototype.isOrthographicCamera = true;

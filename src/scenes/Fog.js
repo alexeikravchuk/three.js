@@ -19,17 +19,6 @@ class Fog {
 
 	}
 
-	toJSON( /* meta */ ) {
-
-		return {
-			type: 'Fog',
-			color: this.color.getHex(),
-			near: this.near,
-			far: this.far
-		};
-
-	}
-
 }
 
 Fog.prototype.isFog = true;
