@@ -1,6 +1,6 @@
 import {
 	Color
-} from '../../../build/three.module.js';
+} from '../../../src/math/Color';
 
 /**
  * Colorify shader
@@ -11,7 +11,7 @@ const ColorifyShader = {
 	uniforms: {
 
 		'tDiffuse': { value: null },
-		'color': { value: new Color( 0xffffff ) }
+		'color': { value: new Color(0xffffff) }
 
 	},
 

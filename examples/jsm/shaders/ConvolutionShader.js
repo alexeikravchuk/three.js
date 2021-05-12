@@ -1,12 +1,10 @@
-import {
-	Vector2
-} from '../../../build/three.module.js';
-
 /**
  * Convolution shader
  * ported from o3d sample to WebGL / GLSL
  * http://o3d.googlecode.com/svn/trunk/samples/convolution.html
  */
+
+import { Vector2 } from '../../../src/math/Vector2';
 
 const ConvolutionShader = {
 
