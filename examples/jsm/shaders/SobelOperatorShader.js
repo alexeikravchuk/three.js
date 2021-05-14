@@ -1,4 +1,4 @@
-import {Vector2} from '../../../../playable_ads/three.js/src/math/Vector2';
+import { Vector2 } from '../../../src/math/Vector2';
 
 /**
  * Sobel Edge Detection (see https://youtu.be/uihBwtPIBxM)
@@ -77,9 +77,9 @@ const SobelOperatorShader = {
 
 		// magnitute of the total gradient
 
-			float G = 1. - sqrt( ( valueGx * valueGx ) + ( valueGy * valueGy ) );
+			float G = sqrt( ( valueGx * valueGx ) + ( valueGy * valueGy ) );
 
-			gl_FragColor = vec4( vec3( G-0.01, G, G + 0.1), 1 );
+			gl_FragColor = vec4( vec3( G), 1 );
 
 		}`
 
