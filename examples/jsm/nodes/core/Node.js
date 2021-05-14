@@ -1,8 +1,10 @@
-import { MathUtils } from '../../../../build/three.module.js';
+// import { MathUtils } from '../../../../build/three.module.js';
+
+import { generateUUID } from '../../../../src/math/MathUtils';
 
 function Node( type ) {
 
-	this.uuid = MathUtils.generateUUID();
+	this.uuid = generateUUID();
 
 	this.name = '';
 
