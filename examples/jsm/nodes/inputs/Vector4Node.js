@@ -1,4 +1,5 @@
-import { Vector4 } from '../../../../build/three.module.js';
+// import { Vector4 } from '../../../../build/three.module.js';
+import { Vector4 } from '../../../../src/math/Vector4';
 
 import { InputNode } from '../core/InputNode.js';
 import { NodeUtils } from '../core/NodeUtils.js';

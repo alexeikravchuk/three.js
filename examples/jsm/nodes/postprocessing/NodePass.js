@@ -1,8 +1,9 @@
-import { MathUtils } from '../../../../build/three.module.js';
+// import { MathUtils } from '../../../../build/three.module.js';
 
 import { ShaderPass } from '../../postprocessing/ShaderPass.js';
 import { NodeMaterial } from '../materials/NodeMaterial.js';
 import { ScreenNode } from '../inputs/ScreenNode.js';
+import { generateUUID } from '../../../../src/math/MathUtils';
 
 class NodePass extends ShaderPass {
 
@@ -11,7 +12,7 @@ class NodePass extends ShaderPass {
 		super();
 
 		this.name = '';
-		this.uuid = MathUtils.generateUUID();
+		this.uuid = generateUUID();
 
 		this.userData = {};
 
@@ -27,7 +28,7 @@ class NodePass extends ShaderPass {
 
 	render() {
 
-		if ( this.needsUpdate ) {
+		if (this.needsUpdate) {
 
 			this.material.dispose();
 
@@ -39,11 +40,11 @@ class NodePass extends ShaderPass {
 
 		this.uniforms = this.material.uniforms;
 
-		super.render( ...arguments );
+		super.render(...arguments);
 
 	}
 
-	copy( source ) {
+	copy(source) {
 
 		this.input = source.input;
 
@@ -51,11 +52,11 @@ class NodePass extends ShaderPass {
 
 	}
 
-	toJSON( meta ) {
+	toJSON(meta) {
 
-		var isRootObject = ( meta === undefined || typeof meta === 'string' );
+		var isRootObject = (meta === undefined || typeof meta === 'string');
 
-		if ( isRootObject ) {
+		if (isRootObject) {
 
 			meta = {
 				nodes: {}
@@ -63,22 +64,28 @@ class NodePass extends ShaderPass {
 
 		}
 
-		if ( meta && ! meta.passes ) meta.passes = {};
+		if (meta && !meta.passes) {
+			meta.passes = {};
+		}
 
-		if ( ! meta.passes[ this.uuid ] ) {
+		if (!meta.passes[this.uuid]) {
 
 			var data = {};
 
 			data.uuid = this.uuid;
 			data.type = 'NodePass';
 
-			meta.passes[ this.uuid ] = data;
+			meta.passes[this.uuid] = data;
 
-			if ( this.name !== '' ) data.name = this.name;
+			if (this.name !== '') {
+				data.name = this.name;
+			}
 
-			if ( JSON.stringify( this.userData ) !== '{}' ) data.userData = this.userData;
+			if (JSON.stringify(this.userData) !== '{}') {
+				data.userData = this.userData;
+			}
 
-			data.input = this.input.toJSON( meta ).uuid;
+			data.input = this.input.toJSON(meta).uuid;
 
 		}
 

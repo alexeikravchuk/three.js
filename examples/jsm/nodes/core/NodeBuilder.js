@@ -1,11 +1,20 @@
-import {
+/*import {
 	CubeReflectionMapping,
 	CubeRefractionMapping,
 	CubeUVReflectionMapping,
 	CubeUVRefractionMapping,
 	LinearEncoding,
 	GammaEncoding
-} from '../../../../build/three.module.js';
+} from '../../../../build/three.module.js';*/
+
+import {
+	CubeReflectionMapping,
+	CubeRefractionMapping,
+	CubeUVReflectionMapping,
+	CubeUVRefractionMapping,
+	GammaEncoding,
+	LinearEncoding
+} from '../../../../src/constants';
 
 import { NodeUniform } from './NodeUniform.js';
 import { NodeUtils } from './NodeUtils.js';
@@ -13,6 +22,7 @@ import { NodeLib } from './NodeLib.js';
 import { FunctionNode } from './FunctionNode.js';
 import { ConstNode } from './ConstNode.js';
 import { StructNode } from './StructNode.js';
+
 import { Vector2Node } from '../inputs/Vector2Node.js';
 import { Vector3Node } from '../inputs/Vector3Node.js';
 import { Vector4Node } from '../inputs/Vector4Node.js';

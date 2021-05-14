@@ -1,5 +1,6 @@
-import { MathUtils } from '../../../../build/three.module.js';
+// import { MathUtils } from '../../../../build/three.module.js';
 import { Node } from './Node.js';
+import { generateUUID } from '../../../../src/math/MathUtils';
 
 function TempNode( type, params ) {
 
@@ -25,7 +26,7 @@ TempNode.prototype.build = function ( builder, output, uuid, ns ) {
 
 		if ( isUnique && this.constructor.uuid === undefined ) {
 
-			this.constructor.uuid = MathUtils.generateUUID();
+			this.constructor.uuid = generateUUID();
 
 		}
 

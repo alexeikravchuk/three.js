@@ -1,15 +1,16 @@
-import {
+/*import {
 	FrontSide,
 	LessEqualDepth,
 	NoColors,
 	NormalBlending,
 	ShaderMaterial
-} from '../../../../build/three.module.js';
+} from '../../../../build/three.module.js';*/
 
 import { NodeBuilder } from '../core/NodeBuilder.js';
 import { ColorNode } from '../inputs/ColorNode.js';
 import { PositionNode } from '../accessors/PositionNode.js';
 import { RawNode } from './nodes/RawNode.js';
+import { ShaderMaterial } from '../../../../src/materials/ShaderMaterial';
 
 class NodeMaterial extends ShaderMaterial {
 

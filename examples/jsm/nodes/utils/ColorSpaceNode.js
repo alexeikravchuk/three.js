@@ -1,4 +1,4 @@
-import {
+/*import {
 	GammaEncoding,
 	LinearEncoding,
 	RGBEEncoding,
@@ -6,13 +6,22 @@ import {
 	RGBM16Encoding,
 	RGBDEncoding,
 	sRGBEncoding
-} from '../../../../build/three.module.js';
+} from '../../../../build/three.module.js';*/
 
 import { TempNode } from '../core/TempNode.js';
 import { ConstNode } from '../core/ConstNode.js';
 import { FloatNode } from '../inputs/FloatNode.js';
 import { FunctionNode } from '../core/FunctionNode.js';
 import { ExpressionNode } from '../core/ExpressionNode.js';
+import {
+	GammaEncoding,
+	LinearEncoding,
+	RGBDEncoding,
+	RGBEEncoding,
+	RGBM16Encoding,
+	RGBM7Encoding,
+	sRGBEncoding
+} from '../../../../src/constants';
 
 function ColorSpaceNode( input, method ) {
 
