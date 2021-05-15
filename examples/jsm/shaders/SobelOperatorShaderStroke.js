@@ -7,29 +7,20 @@ import { Vector2 } from '../../../src/math/Vector2';
  *
  */
 
-const SobelOperatorShader = {
-
+export const SobelOperatorShader = {
 	uniforms: {
-
 		'tDiffuse': { value: null },
 		'resolution': { value: new Vector2() }
-
 	},
 
 	vertexShader: /* glsl */`
-
 		varying vec2 vUv;
-
 		void main() {
-
 			vUv = uv;
-
 			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-
 		}`,
 
 	fragmentShader: /* glsl */`
-
 		uniform sampler2D tDiffuse;
 		uniform vec2 resolution;
 		varying vec2 vUv;
@@ -77,12 +68,11 @@ const SobelOperatorShader = {
 
 		// magnitute of the total gradient
 
-			float G = sqrt( ( valueGx * valueGx ) + ( valueGy * valueGy ) );
+			float G = 1.0 - sqrt( ( valueGx * valueGx ) + ( valueGy * valueGy ) )*0.4 - 0.45;
+			
+			vec4 base = texture2D( tDiffuse, vUv ) * 0.5;
 
-			gl_FragColor = vec4( vec3(G), 1 );
+			gl_FragColor = vec4( vec3(G) + base.xyz, 1 );
 
 		}`
-
 };
-
-export { SobelOperatorShader };

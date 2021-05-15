@@ -1,7 +1,10 @@
-import {
+/*import {
 	Color,
 	Vector3
-} from '../../../build/three.module.js';
+} from '../../../build/three.module.js';*/
+
+import { Vector3 } from '../../../src/math/Vector3';
+import { Color} from '../../../src/math/Color';
 
 /**
  * Currently contains:

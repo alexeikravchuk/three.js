@@ -1,17 +1,28 @@
+// import {
+// 	LinearFilter,
+// 	NearestFilter,
+// 	RGBAFormat,
+// 	RGBFormat,
+// 	ShaderMaterial,
+// 	Texture,
+// 	UniformsUtils,
+// 	WebGLRenderTarget
+// } from '../../../build/three.module.js';
+import { Pass, FullScreenQuad } from './Pass';
+import { SMAAEdgesShader } from '../../jsm/shaders/SMAAShader.js';
+import { SMAAWeightsShader } from '../../jsm/shaders/SMAAShader.js';
+import { SMAABlendShader } from '../../jsm/shaders/SMAAShader.js';
+
+import { WebGLRenderTarget } from '../../../src/renderers/WebGLRenderTarget';
+import { Texture } from '../../../src/textures/Texture';
 import {
 	LinearFilter,
 	NearestFilter,
 	RGBAFormat,
-	RGBFormat,
-	ShaderMaterial,
-	Texture,
-	UniformsUtils,
-	WebGLRenderTarget
-} from '../../../build/three.module.js';
-import { Pass, FullScreenQuad } from '../postprocessing/Pass.js';
-import { SMAAEdgesShader } from '../shaders/SMAAShader.js';
-import { SMAAWeightsShader } from '../shaders/SMAAShader.js';
-import { SMAABlendShader } from '../shaders/SMAAShader.js';
+	RGBFormat
+} from '../../../src/constants';
+import { ShaderMaterial } from '../../../src/materials/ShaderMaterial';
+import { UniformsUtils } from '../../../src/renderers/shaders/UniformsUtils';
 
 class SMAAPass extends Pass {
 

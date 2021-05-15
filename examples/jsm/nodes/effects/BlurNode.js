@@ -1,10 +1,9 @@
-import { Vector2 } from '../../../../build/three.module.js';
-
 import { TempNode } from '../core/TempNode.js';
 import { FunctionNode } from '../core/FunctionNode.js';
 import { FloatNode } from '../inputs/FloatNode.js';
 import { Vector2Node } from '../inputs/Vector2Node.js';
 import { UVNode } from '../accessors/UVNode.js';
+import { Vector2 } from '../../../../src/math/Vector2';
 
 function BlurNode( value, uv, radius, size ) {
 
