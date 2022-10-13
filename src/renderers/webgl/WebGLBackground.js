@@ -32,14 +32,14 @@ function WebGLBackground( renderer, cubemaps, state, objects, premultipliedAlpha
 		// Ignore background in AR
 		// TODO: Reconsider this.
 
-		const xr = renderer.xr;
+		/*const xr = renderer.xr;
 		const session = xr.getSession && xr.getSession();
 
 		if ( session && session.environmentBlendMode === 'additive' ) {
 
 			background = null;
 
-		}
+		}*/
 
 		if ( background === null ) {
 
