@@ -1,4 +1,5 @@
-import { CopyShader } from '../../jsm/shaders/CopyShader';
+import { CopyShader } from '../../../../three.js/examples/jsm/shaders/CopyShader';
+
 import { ShaderPass } from './ShaderPass';
 import { MaskPass } from './MaskPass';
 import { ClearMaskPass } from './MaskPass';
