@@ -1,10 +1,3 @@
-import {
-	BufferGeometry,
-	Float32BufferAttribute,
-	Matrix4,
-	Vector3
-} from '../../../build/three.module.js';
-
 /**
  * You can use this geometry to create a decal mesh, that serves different kinds of purposes.
  * e.g. adding unique details to models, performing dynamic visual environmental changes or covering seams.
@@ -19,6 +12,10 @@ import {
  * reference: http://blog.wolfire.com/2009/06/how-to-project-decals/
  *
  */
+import { Float32BufferAttribute } from 'three.js/src/core/BufferAttribute';
+import { BufferGeometry } from 'three.js/src/core/BufferGeometry';
+import { Matrix4 } from 'three.js/src/math/Matrix4';
+import { Vector3 } from 'three.js/src/math/Vector3';
 
 class DecalGeometry extends BufferGeometry {
 
