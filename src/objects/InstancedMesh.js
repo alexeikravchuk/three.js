@@ -1,56 +1,136 @@
-import { BufferAttribute } from '../core/BufferAttribute.js';
-import { Mesh } from './Mesh.js';
-import { Matrix4 } from '../math/Matrix4.js';
+import {InstancedBufferAttribute} from '../core/InstancedBufferAttribute.js';
+import {Mesh} from './Mesh.js';
+import {Box3} from '../math/Box3.js';
+import {Matrix4} from '../math/Matrix4.js';
+import {Sphere} from '../math/Sphere.js';
+import {Color} from "three.js/src/math/Color";
 
 const _instanceLocalMatrix = /*@__PURE__*/ new Matrix4();
 const _instanceWorldMatrix = /*@__PURE__*/ new Matrix4();
 
 const _instanceIntersects = [];
 
+const _box3 = /*@__PURE__*/ new Box3();
+const _identity = /*@__PURE__*/ new Matrix4();
 const _mesh = /*@__PURE__*/ new Mesh();
+const _sphere = /*@__PURE__*/ new Sphere();
 
 class InstancedMesh extends Mesh {
 
-	constructor( geometry, material, count ) {
+	constructor(geometry, material, count) {
 
-		super( geometry, material );
+		super(geometry, material);
 
-		this.instanceMatrix = new BufferAttribute( new Float32Array( count * 16 ), 16 );
+		this.isInstancedMesh = true;
+
+		this.instanceMatrix = new InstancedBufferAttribute(new Float32Array(count * 16), 16);
 		this.instanceColor = null;
 
 		this.count = count;
 
-		this.frustumCulled = false;
+		this.boundingBox = null;
+		this.boundingSphere = null;
+
+		for (let i = 0; i < count; i++) {
+
+			this.setMatrixAt(i, _identity);
+
+		}
 
 	}
 
-	copy( source ) {
+	computeBoundingBox() {
 
-		super.copy( source );
+		const geometry = this.geometry;
+		const count = this.count;
 
-		this.instanceMatrix.copy( source.instanceMatrix );
+		if (this.boundingBox === null) {
 
-		if ( source.instanceColor !== null ) this.instanceColor = source.instanceColor.clone();
+			this.boundingBox = new Box3();
+
+		}
+
+		if (geometry.boundingBox === null) {
+
+			geometry.computeBoundingBox();
+
+		}
+
+		this.boundingBox.makeEmpty();
+
+		for (let i = 0; i < count; i++) {
+
+			this.getMatrixAt(i, _instanceLocalMatrix);
+
+			_box3.copy(geometry.boundingBox).applyMatrix4(_instanceLocalMatrix);
+
+			this.boundingBox.union(_box3);
+
+		}
+
+	}
+
+	computeBoundingSphere() {
+
+		const geometry = this.geometry;
+		const count = this.count;
+
+		if (this.boundingSphere === null) {
+
+			this.boundingSphere = new Sphere();
+
+		}
+
+		if (geometry.boundingSphere === null) {
+
+			geometry.computeBoundingSphere();
+
+		}
+
+		this.boundingSphere.makeEmpty();
+
+		for (let i = 0; i < count; i++) {
+
+			this.getMatrixAt(i, _instanceLocalMatrix);
+
+			_sphere.copy(geometry.boundingSphere).applyMatrix4(_instanceLocalMatrix);
+
+			this.boundingSphere.union(_sphere);
+
+		}
+
+	}
+
+	copy(source, recursive) {
+
+		super.copy(source, recursive);
+
+		this.instanceMatrix.copy(source.instanceMatrix);
+
+		if (source.instanceColor !== null) this.instanceColor = source.instanceColor.clone();
 
 		this.count = source.count;
+
+		if (source.boundingBox !== null) this.boundingBox = source.boundingBox.clone();
+		if (source.boundingSphere !== null) this.boundingSphere = source.boundingSphere.clone();
 
 		return this;
 
 	}
 
-	getColorAt( index, color ) {
+	getColorAt(index, color) {
 
-		color.fromArray( this.instanceColor.array, index * 3 );
-
-	}
-
-	getMatrixAt( index, matrix ) {
-
-		matrix.fromArray( this.instanceMatrix.array, index * 16 );
+		color.fromArray(this.instanceColor.array, index * 3);
 
 	}
 
-	raycast( raycaster, intersects ) {
+	getMatrixAt(index, matrix) {
+
+		matrix.fromArray(this.instanceMatrix.array, index * 16);
+
+	}
+
+	raycast(raycaster, intersects) {
 
 		const matrixWorld = this.matrixWorld;
 		const raycastTimes = this.count;
@@ -58,30 +138,41 @@ class InstancedMesh extends Mesh {
 		_mesh.geometry = this.geometry;
 		_mesh.material = this.material;
 
-		if ( _mesh.material === undefined ) return;
+		if (_mesh.material === undefined) return;
 
-		for ( let instanceId = 0; instanceId < raycastTimes; instanceId ++ ) {
+		// test with bounding sphere first
+
+		if (this.boundingSphere === null) this.computeBoundingSphere();
+
+		_sphere.copy(this.boundingSphere);
+		_sphere.applyMatrix4(matrixWorld);
+
+		if (raycaster.ray.intersectsSphere(_sphere) === false) return;
+
+		// now test each instance
+
+		for (let instanceId = 0; instanceId < raycastTimes; instanceId++) {
 
 			// calculate the world matrix for each instance
 
-			this.getMatrixAt( instanceId, _instanceLocalMatrix );
+			this.getMatrixAt(instanceId, _instanceLocalMatrix);
 
-			_instanceWorldMatrix.multiplyMatrices( matrixWorld, _instanceLocalMatrix );
+			_instanceWorldMatrix.multiplyMatrices(matrixWorld, _instanceLocalMatrix);
 
 			// the mesh represents this single instance
 
 			_mesh.matrixWorld = _instanceWorldMatrix;
 
-			_mesh.raycast( raycaster, _instanceIntersects );
+			_mesh.raycast(raycaster, _instanceIntersects);
 
 			// process the result of raycast
 
-			for ( let i = 0, l = _instanceIntersects.length; i < l; i ++ ) {
+			for (let i = 0, l = _instanceIntersects.length; i < l; i++) {
 
-				const intersect = _instanceIntersects[ i ];
+				const intersect = _instanceIntersects[i];
 				intersect.instanceId = instanceId;
 				intersect.object = this;
-				intersects.push( intersect );
+				intersects.push(intersect);
 
 			}
 
@@ -91,21 +182,21 @@ class InstancedMesh extends Mesh {
 
 	}
 
-	setColorAt( index, color ) {
+	setColorAt(index, color) {
 
-		if ( this.instanceColor === null ) {
+		if (this.instanceColor === null) {
 
-			this.instanceColor = new BufferAttribute( new Float32Array( this.count * 3 ), 3 );
+			this.instanceColor = new InstancedBufferAttribute(new Float32Array(this.instanceMatrix.count * 3), 3);
 
 		}
 
-		color.toArray( this.instanceColor.array, index * 3 );
+		color.toArray(this.instanceColor.array, index * 3);
 
 	}
 
-	setMatrixAt( index, matrix ) {
+	setMatrixAt(index, matrix) {
 
-		matrix.toArray( this.instanceMatrix.array, index * 16 );
+		matrix.toArray(this.instanceMatrix.array, index * 16);
 
 	}
 
@@ -115,12 +206,23 @@ class InstancedMesh extends Mesh {
 
 	dispose() {
 
-		this.dispatchEvent( { type: 'dispose' } );
+		this.dispatchEvent({type: 'dispose'});
+
+	}
+
+	removeInstanceAt(index) {
+		if (this.instanceMatrix === null) {
+			this.instanceMatrix = new InstancedBufferAttribute(new Float32Array(this.instanceMatrix.count * 16), 3);
+		}
+
+		const m = new Matrix4();
+		//TODO
+		m.setPosition(-100, 0, 0);
+		m.toArray(this.instanceMatrix.array, index * 16);
+		this.instanceMatrix.needsUpdate = true;
 
 	}
 
 }
 
-InstancedMesh.prototype.isInstancedMesh = true;
-
-export { InstancedMesh };
+export {InstancedMesh};
